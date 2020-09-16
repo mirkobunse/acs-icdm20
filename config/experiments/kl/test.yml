@@ -1,0 +1,16 @@
+# see config/experiments/kl/main.yml for a documentation of these settings
+seed: 876
+verbose: 10
+sequential: True
+min_pC: 0.05
+n_iterations: 10
+n_repetitions: 1
+n_samples: 1000
+
+datasets:
+  - id: vertebral
+    nca_components: 2
+  - id: yeast
+    nca_components: 2
+  - id: vehicle
+    nca_components: 3

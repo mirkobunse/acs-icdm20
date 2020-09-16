@@ -1,0 +1,14 @@
+# mean vector of each multivariate normally distributed cluster
+mean:
+  - np.zeros(2)
+  - np.array([ 15, 2 ])
+  - np.array([ 15, -2 ])
+
+# variance-covariance matrix of each cluster
+cov:
+  - np.identity(2)
+  - np.array([ 2, 0, 0, 4 ]).reshape(2, 2)
+  - np.array([ 2, 0, 0, 4 ]).reshape(2, 2)
+
+# relative amount in which each cluster should be generated
+proportion: [1., 1., 1.]

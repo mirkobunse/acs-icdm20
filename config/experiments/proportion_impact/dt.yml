@@ -1,0 +1,49 @@
+# see config/experiments/proportion_impact/main.yml for a documentation of these settings
+seed: 876
+verbose: 0
+sequential: False
+n_trials: 1000
+frac_test: 0.33
+proportional_test_set: True
+
+classifier:
+  class_name: DecisionTreeClassifier
+  parameters:
+    criterion: "gini"
+
+datasets:
+  - id: 3clusters
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: -1
+    classifier_parameters:
+      max_leaf_nodes: 3
+
+  - id: spirals
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: -1
+    classifier_parameters:
+      max_depth: 10
+
+  - id: vertebral
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: 2
+    classifier_parameters:
+      max_leaf_nodes: 5
+
+  - id: yeast
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: -1
+    classifier_parameters:
+      max_leaf_nodes: 7
+
+  - id: vehicle
+    simplex_scale: 8
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+    nca_components: 3
+    classifier_parameters:
+      criterion: "entropy"
+      max_depth: 7

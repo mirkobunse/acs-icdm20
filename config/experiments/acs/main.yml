@@ -1,0 +1,46 @@
+#
+# Sequential class-conditional data acquisition with heuristics. This experiment
+# generates the test set performances of the natural class proportions used in
+# Fig. 3 of our paper.
+#
+
+# general settings
+seed: 876            # seed of the random number generator
+verbose: 0           # verbosity of the logging
+sequential: False    # whether experiments are run sequentially or concurrently
+n_trials: 1000       # number of times each experiment is run
+frac_test: 0.33      # fraction of test examples
+proportional_test_set: True # whether the test set is proportional or uniform
+
+classifier:
+  class_name: ParzenWindowClassifier # custom implementation
+  parameters:
+    bandwidth: 0.05 # bandwidth of the Gaussian kernel
+
+# fixed settings:
+# - each feature is normalized to the unit range
+# - the output path is set by a runtime argument
+
+datasets:
+  - id: 3clusters
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1 # -1 omits the NCA
+
+  - id: spirals
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1
+
+  - id: vertebral
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: 2
+
+  - id: yeast
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: 2
+
+  - id: vehicle
+    n_samples: [8,16,24,32,40,48,56,64,72,80,88]
+    nca_components: 3
+
+scorers:
+  - class_name: methods.acs.ProportionalLabelScore

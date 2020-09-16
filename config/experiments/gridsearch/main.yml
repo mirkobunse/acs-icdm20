@@ -1,0 +1,32 @@
+# Setting up an exhaustive grid search.
+#
+#  => parameter-grid space = concatenate(AxA, BxB)  WARNING: There are no checks for duplicate configurations
+#  --> combinations of passing argument tuples = parameter-grid space x (nca_components x datasets)
+
+# general settings
+seed: 876         # seed of the random number generator
+verbose: 0        # verbosity of the logging
+sequential: False # whether experiments are run sequentially or concurrently
+n_trials: 20      # number of times each experiment is run
+frac_test: 0.33   # fraction of test examples; these are completely ignored in this experiment
+proportional_test_set: True # whether the test set is proportional or uniform
+rkf_n_splits: 5   # number of splits in a repeated cross validation
+rkf_n_repeats: 1  # number of repetitions in a repeated cross validation
+
+classifier:
+  class_name: ParzenWindowClassifier # custom implementation
+  parameters:
+    bandwidth: 0.05 # bandwidth of the Gaussian kernel
+
+hyperparameter_space:
+  - bandwidth: [0.05] # keep this parameter fixed; only alter nca_components
+
+datasets:
+  - id: vertebral
+    nca_components: [-1, 0, 2, 3, 4, 5]
+
+  - id: yeast
+    nca_components: [-1, 0, 2, 3, 4, 5]
+
+  - id: vehicle
+    nca_components: [2, 3, 4, 5, 7, 10, 15, -1, 0]

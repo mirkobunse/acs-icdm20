@@ -1,0 +1,56 @@
+# see config/experiments/acs/main.yml for a documentation of these settings
+seed: 876
+verbose: 0
+sequential: False
+n_trials: 1000
+frac_test: 0.33
+proportional_test_set: True
+
+classifier:
+  class_name: SVC
+  parameters:
+    C: 1
+    kernel: 'linear'
+
+datasets:
+  - id: 3clusters
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1
+    classifier_parameters:
+      C: 100
+      kernel: 'rbf'
+      gamma: 'scale' # update the classifier parameters
+
+  - id: spirals
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1
+    classifier_parameters:
+      C: 50
+      kernel: 'rbf'
+      gamma: 50
+
+  - id: vertebral
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: 5
+    classifier_parameters:
+      C: 100
+      kernel: 'linear'
+
+  - id: yeast
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1
+    classifier_parameters:
+      C: 1
+      kernel: 'rbf'
+      gamma: 'scale'
+
+  - id: vehicle
+    n_samples: [8,16,24,32,40,48,56,64,72,80,88]
+    nca_components: -1
+    classifier_parameters:
+      C: 50
+      kernel: 'rbf'
+      gamma: 'scale'
+
+scorers:
+  - class_name: methods.acs.ProportionalLabelScore

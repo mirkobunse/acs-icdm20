@@ -1,0 +1,48 @@
+# see config/experiments/acs/main.yml for a documentation of these settings
+seed: 876
+verbose: 0
+sequential: False
+n_trials: 1000
+frac_test: 0.33
+proportional_test_set: True
+
+classifier:
+  class_name: DecisionTreeClassifier
+  parameters:
+    criterion: "gini"
+
+datasets:
+  - id: 3clusters
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1
+    classifier_parameters:
+      max_leaf_nodes: 3
+
+  - id: spirals
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1
+    classifier_parameters:
+      max_depth: 10
+
+  - id: vertebral
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: 2
+    classifier_parameters:
+      max_leaf_nodes: 5
+
+  - id: yeast
+    n_samples: [9,18,27,36,45,54,63,72,81,90]
+    nca_components: -1
+    classifier_parameters:
+      max_leaf_nodes: 7
+
+
+  - id: vehicle
+    n_samples: [8,16,24,32,40,48,56,64,72,80,88]
+    nca_components: 3
+    classifier_parameters:
+      criterion: "entropy"
+      max_depth: 7
+
+scorers:
+  - class_name: methods.acs.ProportionalLabelScore

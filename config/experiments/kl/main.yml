@@ -1,0 +1,30 @@
+#
+# Compute the KL divergences wrt Y and X between ACS-generated training data
+# and the true underlying distribution. This experiment produces Fig. 2 in
+# our paper.
+#
+
+# general settings
+seed: 876         # seed of the random number generator
+verbose: 0        # verbosity of the logging
+sequential: False # whether experiments are run sequentially or concurrently
+min_pC: 0.05      # minimum P(Y=c) for all classes, the maximum is 1-min_pC
+n_iterations: 19  # how many steps to take for dY
+n_repetitions: 1  # how often each step is repeated
+n_samples: 10000  # number of samples used to compute the KL divergences
+
+# fixed settings:
+# - each feature is normalized to the unit range
+# - the output path is set by a runtime argument
+
+datasets:
+  - id: 3clusters
+    nca_components: -1 # -1 omits the NCA
+  - id: spirals
+    nca_components: -1
+  - id: vertebral
+    nca_components: 2
+  - id: yeast
+    nca_components: 2
+  - id: vehicle
+    nca_components: 3

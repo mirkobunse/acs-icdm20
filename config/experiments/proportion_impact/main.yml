@@ -1,0 +1,62 @@
+#
+# Try several alternative class proportions to assess the relative rank of an
+# ACS strategy like the natural class proportions. This experiment is used in
+# Fig. 3 of our paper.
+#
+
+# general settings
+seed: 876         # seed of the random number generator
+verbose: 0        # verbosity of the logging
+sequential: False # whether experiments are run sequentially or concurrently
+n_trials: 1000    # number of times each experiment is run
+frac_test: 0.33   # number of test examples of each class
+proportional_test_set: True # whether the test set is proportional or uniform
+
+#
+# The scale of the simplex iterator determines the number of proportions. In the following
+# we provide some numbers in the format "simplex_scale: n_proportions":
+#
+# For C=3 -- 6: 10, 7: 15, 8: 21, 9: 28, 10: 36, 11: 45, 12: 55, 13: 66, 14: 78, 15: 91,
+# 16: 105, 17: 120, 18: 136, 19: 153, 20: 171, 21: 190, 22: 210, 23: 231, 24: 253, 25: 276,
+# 26: 300, 27: 325, 28: 351, 29: 378, 30: 406, 31: 435, 32: 465, 33: 496.
+#
+# For C=4 -- 6: 10, 7: 20, 8: 35, 9: 56, 10: 84, 11: 120, 12: 165, 13: 220, 14: 286,
+# 15: 364, 16: 455, 17: 560
+#
+# Moreover, the number of acquisitions per round must be a multiple of this scale.
+#
+
+classifier:
+  class_name: ParzenWindowClassifier # like in config/experiments/acs/main.yml
+  parameters:
+    bandwidth: 0.05
+
+# fixed settings:
+# - each feature is normalized to the unit range
+# - the output path is set by a runtime argument
+
+datasets:
+  - id: 3clusters
+    simplex_scale: 9 # see explanation above
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] # multiples of the simplex_scale
+    nca_components: -1 # -1 omits the NCA
+
+  - id: spirals
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: -1
+
+  - id: vertebral
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: 2
+
+  - id: yeast
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: 2
+
+  - id: vehicle
+    simplex_scale: 8
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+    nca_components: 3

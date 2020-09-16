@@ -1,0 +1,23 @@
+# see config/experiments/gridsearch/main.yml for a documentation of these settings
+seed: 876
+verbose: 10
+sequential: True
+n_trials: 2
+frac_test: 0.33
+proportional_test_set: True
+rkf_n_splits: 3
+rkf_n_repeats: 1
+
+classifier:
+  class_name: SVC
+  parameters:
+    C: 1
+    kernel: 'linear'
+
+nca_components:
+  - 2
+  - -1
+
+datasets:
+  - id: vertebral
+  - id: yeast

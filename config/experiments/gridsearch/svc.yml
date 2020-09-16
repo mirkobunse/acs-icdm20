@@ -1,0 +1,38 @@
+# see config/experiments/gridsearch/main.yml for a documentation of these settings
+seed: 876
+verbose: 0
+sequential: False
+n_trials: 20
+frac_test: 0.33
+proportional_test_set: True
+rkf_n_splits: 5
+rkf_n_repeats: 1
+
+classifier:
+  class_name: SVC
+  parameters:
+    cache_size: 500
+
+hyperparameter_space:
+  - C:      [000.1, 0.001, 0.01, 0.1, 1, 10, 50, 100]
+    kernel: ['linear']
+
+  - C:      [000.1, 0.001, 0.01, 0.1, 1, 10, 50, 100]
+    kernel: ['rbf']
+    gamma:  ['scale', 000.1, 0.001, 0.01, 0.1, 1, 10, 50, 100]
+
+datasets:
+  - id: 3clusters
+    nca_components: [-1]
+
+  - id: spirals
+    nca_components: [-1]
+
+  - id: vertebral
+    nca_components: [-1, 0, 2, 3, 4, 5]
+
+  - id: yeast
+    nca_components: [-1, 0, 2, 3, 4, 5]
+
+  - id: vehicle
+    nca_components: [-1, 0, 2, 3, 4, 5, 7, 10, 15]

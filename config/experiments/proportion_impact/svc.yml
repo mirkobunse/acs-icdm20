@@ -1,0 +1,58 @@
+# see config/experiments/proportion_impact/main.yml for a documentation of these settings
+seed: 876
+verbose: 0
+sequential: False
+n_trials: 1000
+frac_test: 0.33
+proportional_test_set: True
+
+classifier:
+  class_name: SVC
+  parameters:
+    C: 1
+    kernel: 'linear'
+
+datasets:
+  - id: 3clusters
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: -1
+    classifier_parameters:
+      C: 100
+      kernel: 'rbf'
+      gamma: scale
+
+  - id: spirals
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: -1
+    classifier_parameters:
+      C: 50
+      kernel: 'rbf'
+      gamma: 50
+
+  - id: vertebral
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: 5
+    classifier_parameters:
+      C: 100
+      kernel: 'linear'
+
+  - id: yeast
+    simplex_scale: 9
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    nca_components: -1
+    classifier_parameters:
+      C: 1
+      kernel: 'rbf'
+      gamma: 'scale'
+
+  - id: vehicle
+    simplex_scale: 8
+    simplex_scale_multiples: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+    nca_components: -1
+    classifier_parameters:
+      C: 50
+      kernel: 'rbf'
+      gamma: 'scale'

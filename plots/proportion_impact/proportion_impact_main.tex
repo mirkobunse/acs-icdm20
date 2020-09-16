@@ -1,0 +1,134 @@
+\documentclass[border=5pt]{standalone}
+
+\usepackage{xstring}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+
+% color palette
+\definecolor{tu01}{HTML}{84B818}
+\definecolor{tu02}{HTML}{D18B12}
+\definecolor{tu03}{HTML}{1BB5B5}
+\definecolor{tu04}{HTML}{F85A3E}
+\definecolor{tu05}{HTML}{4B6CFC}
+\colorlet{tu01midlight}{tu01!60}
+\colorlet{tu02midlight}{tu02!60}
+\colorlet{tu03midlight}{tu03!60}
+\colorlet{tu04midlight}{tu04!60}
+\colorlet{tu05midlight}{tu05!60}
+\colorlet{anthracite}{black!85}
+
+% math
+\usepackage{amsmath,amssymb}
+\newcommand\bP{\ensuremath{\mathbb P}}
+
+% basic styles
+\pgfplotsset{
+  rank axis/.style = {
+    ylabel = {relative rank of \;$\bP(\,Y)$},
+    xlabel = {number of training examples},
+    ymin = -0.025,
+    ymax = 0.825,
+    legend cell align={left},
+    legend style = {
+      draw = none,
+      fill = none,
+      at = {(1.05,.5)},
+      anchor = west,
+      row sep = .25em
+    },
+    xticklabel style={font=\footnotesize},
+    yticklabel style={font=\footnotesize},
+    xlabel style={font=\small},
+    ylabel style={align=center, font=\small},
+    axis line style = {anthracite, semithick},
+    title style = {
+      at={(.5,1)},
+      anchor=south,
+      font=\bfseries\small,
+      inner sep=0pt,
+      outer sep=0pt
+    },
+    xtick={10,30,50,70,90}
+  },
+  rank plot/.style={mark options={solid, fill=white}, semithick},
+  rank plot 01/.style={rank plot, mark=*, tu01midlight, every mark/.append style={draw=tu01}, error bars/error bar style/.append style={draw=tu01}, error bars/error mark options={draw=tu01, rotate=90}},
+  rank plot 02/.style={rank plot, densely dashed, mark=triangle*, tu02midlight, every mark/.append style={draw=tu02}, error bars/error bar style/.append style={draw=tu02}, error bars/error mark options={draw=tu02, rotate=90}},
+  rank plot 03/.style={rank plot, densely dotted, mark=square*, tu03midlight, every mark/.append style={draw=tu03, scale=0.8}, error bars/error bar style/.append style={draw=tu03}, error bars/error mark options={draw=tu03, rotate=90}},
+  rank plot 04/.style={rank plot, dash dot, mark=diamond*, tu04midlight, every mark/.append style={draw=tu04!90!black}, error bars/error bar style/.append style={draw=tu04!90!black}, error bars/error mark options={draw=tu04!90!black, rotate=90}},
+  rank plot 05/.style={rank plot, dashed, mark=otimes*, tu05midlight, every mark/.append style={draw=tu05}, error bars/error bar style/.append style={draw=tu05}, error bars/error mark options={draw=tu05, rotate=90}}
+}
+%
+% display error bars only on a specific list of x values
+\newcommand{\ifassoc}[4]{%
+  \edef\dotheloop{%
+    \noexpand\foreach \noexpand\a/\noexpand\b in {#2} {%
+      \noexpand\IfEq{\noexpand\a}{#1}{%
+        \noexpand\gdef\noexpand\memberresult{true}%
+        \noexpand\xdef\noexpand\assocresult{\noexpand\b}%
+        \noexpand\breakforeach%
+      }{}%
+    }%
+  }%
+  \xdef\assocresult{}%
+  \xdef\memberresult{false}
+  \dotheloop%
+  \IfEq{\memberresult}{true}{#3}{#4}%
+} % https://tex.stackexchange.com/a/70152
+\pgfplotsset{
+  discard if not in/.style 2 args={%
+    x filter/.code={\ifassoc{\thisrow{#1}}{#2}{}{\def\pgfmathresult{inf}}}
+  }
+}
+%
+\newcommand{\rankplot}[3]{%
+  \addplot[
+    #2
+  ] table [
+    col sep = comma,
+    x = {N},
+    y = {rank_mean},
+    y error minus = {rank_25_error},
+    y error plus = {rank_75_error}
+  ] {plots/proportion_impact/#3}; % add the plot
+  \addlegendentry{#1}
+}
+%
+\newcommand{\rankerror}[3]{%
+  \addplot[
+    #2,
+    unbounded coords=jump,
+    discard if not in={N}{#1},
+    draw=none,
+    mark=none,
+    error bars/y dir=both,
+    error bars/y explicit,
+    error bars/error bar style={solid}
+  ] table [
+    col sep = comma,
+    x = {N},
+    y = {rank_mean},
+    y error minus = {rank_25_error},
+    y error plus = {rank_75_error}
+  ] {plots/proportion_impact/#3};
+}
+%
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[rank axis, scale=0.66, title={Parzen window classifier\strut}]
+
+  \rankplot{3clusters}{rank plot 01}{main_ProportionalLabelScore_3clusters.csv}
+  \rankplot{spirals}{rank plot 02}{main_ProportionalLabelScore_spirals.csv}
+  \rankplot{vertebral}{rank plot 03}{main_ProportionalLabelScore_vertebral.csv}
+  \rankplot{yeast}{rank plot 04}{main_ProportionalLabelScore_yeast.csv}
+  \rankplot{vehicle}{rank plot 05}{main_ProportionalLabelScore_vehicle.csv}
+
+  % round-robin error bars
+  \rankerror{9,54}{rank plot 01}{main_ProportionalLabelScore_3clusters.csv}
+  \rankerror{27,72}{rank plot 02}{main_ProportionalLabelScore_spirals.csv}
+  \rankerror{36,81}{rank plot 03}{main_ProportionalLabelScore_vertebral.csv}
+  \rankerror{45,90}{rank plot 04}{main_ProportionalLabelScore_yeast.csv}
+  \rankerror{16,64}{rank plot 05}{main_ProportionalLabelScore_vehicle.csv}
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+# see config/experiments/proportion_impact/main.yml for a documentation of these settings
+seed: 876
+verbose: 10
+sequential: True
+n_trials: 2
+frac_test: 0.33
+proportional_test_set: True
+
+classifier:
+  class_name: SVC
+  parameters:
+    C: 1
+    kernel: 'linear'
+
+datasets:
+  - id: 3clusters
+    simplex_scale: 6
+    simplex_scale_multiples: [ 1, 2 ]
+    nca_components: -1
+  - id: spirals
+    simplex_scale: 6
+    simplex_scale_multiples: [ 2, 3 ]
+    nca_components: -1
+  - id: vertebral
+    simplex_scale: 6
+    simplex_scale_multiples: [ 4, 5 ]
+    nca_components: 2

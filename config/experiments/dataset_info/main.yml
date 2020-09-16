@@ -1,0 +1,19 @@
+#
+# Extract meta-information about the data sets, e.g. sample size, number of features, etc.
+#
+
+datasets:
+  - id: 3clusters
+    nca_components: -1 # -1 omits the NCA
+  - id: spirals
+    nca_components: -1
+  - id: vertebral
+    nca_components: 2
+  - id: yeast
+    nca_components: 2
+  - id: vehicle
+    nca_components: 3
+
+# fixed settings:
+# - the output path is set by a runtime argument
+# - the LaTeX citations and n_samples are hard-coded into the experiment

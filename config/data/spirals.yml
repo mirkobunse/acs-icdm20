@@ -1,0 +1,35 @@
+# mean vector of the multivariate normally distributed cluster
+cluster_mean: np.array([-30, 0])
+cluster_cov: np.identity(2) * 2.5
+
+# mean value of each spiral
+mean:
+  - np.zeros(2)
+  - np.zeros(2)
+
+# parameter 'a' in the archimedean definition, r = a + b * p
+a:
+  - 0.
+  - 0.
+
+# parameter 'b'
+b:
+  - 1.
+  - 1.
+
+theta:
+  - min: -1
+    max: -10
+  - min: -1
+    max: -10
+
+# scaling of x and y coordinates
+scale:
+  - np.ones(2)
+  - np.ones(2) * -1
+
+# relative amount in which each class should be generated, the first one being the cluster
+proportion:
+  - 1.
+  - 1.
+  - 1.

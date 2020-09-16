@@ -1,0 +1,29 @@
+# see config/experiments/acs/main.yml for a documentation of these settings
+seed: 876
+verbose: 10
+sequential: True
+n_trials: 2
+frac_test: 0.33
+proportional_test_set: True
+
+classifier:
+  class_name: SVC
+  parameters:
+    C: 1
+    kernel: 'linear'
+
+datasets:
+  - id: 3clusters
+    n_samples: [9,10,11,12,13,14,15,16]
+    nca_components: -1
+  - id: spirals
+    n_samples: [9,10,11,12,13]
+    nca_components: -1
+
+scorers:
+  - class_name: methods.acs.ProportionalLabelScore
+  - class_name: methods.acs.UniformLabelScore
+  - class_name: methods.acs.InverseLabelScore
+  - class_name: methods.acs.ImprovementLabelScore
+  - class_name: methods.acs.RedistrictionLabelScore
+  - class_name: methods.acs.IgnorantLabelScore
